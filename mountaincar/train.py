@@ -212,8 +212,7 @@ def run(environment, explore_trials, exploit_trials, position_bins, velocity_bin
         log_metrics_artifact("explore-metrics", explore_metrics_df)
 
         logging.info("Generating plots...")
-        # avg_window = int(trials/100)
-        avg_window = 1
+        avg_window = int(trials/100)
         plot_steps_in_trial("explore-steps.png", explore_metrics_df, window=avg_window)
         plot_avg_fitness("explore-fitness.png", explore_metrics_df, window=avg_window)
         plot_reward("explore-reward.png", explore_metrics_df, window=avg_window)
