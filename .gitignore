@@ -128,8 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Project specific
+
 .idea
 mlruns
 out
 src
+.DS_Store
