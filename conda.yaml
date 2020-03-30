@@ -1,12 +1,19 @@
-name: racs-experiments
+name: pyalcs-experiments
 channels:
-  - defaults
+  - conda-forge
 dependencies:
   - python=3.7
+  - jupyter=1.0.0
+  - jupyterlab>=2.0.0
+  - jupyter_contrib_nbextensions>=0.5.1
+  - mlflow>=1.7
+  - pandas>=1.0.0
+  - papermill>=2.0.0
+  - matplotlib>=3.1.1
+  - pytest>=5.4
   - pip
   - dill
   - pip:
-    - mlflow>=1.0
-    - matplotlib
-    - "-e git+https://github.com/ParrotPrediction/pyalcs.git@db61bec258d00860bb089d319df6f9c6eb50439f#egg=parrotprediction-pyalcs"
-    - "-e git+https://github.com/ParrotPrediction/openai-envs.git@89f25c592e6c1be07a98754560bc8ca2c89b4591#egg=parrotprediction-openai-envs"
+    - gym==0.11
+    - "-e git+https://github.com/ParrotPrediction/pyalcs.git@1d6b794e730f22c5c93a78b7aa4d43d75350e41c#egg=parrotprediction-pyalcs"
+    - "-e git+https://github.com/ParrotPrediction/openai-envs.git@d20d24d2a52c0cc01e24613ba5a49b1d781da413#egg=parrotprediction-openai-envs"

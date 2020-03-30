@@ -1,4 +1,5 @@
 import pandas as pd
+from lcs import Perception
 from matplotlib import pyplot as plt
 
 
@@ -11,6 +12,22 @@ def print_cl(cl):
     return (
         f"{cl.condition} - {action} - {cl.effect}"
         f"[fit: {cl.fitness:.3f}, r: {cl.r:.2f}, ir: {cl.ir:.2f}]")
+
+
+def calculate_knowledge(population, environment):
+    transitions = environment.env.get_transitions()
+    reliable = [c for c in population if c.is_reliable()]
+    nr_correct = 0
+
+    for start, action, end in transitions:
+        p0 = Perception((str(start),))
+        p1 = Perception((str(end),))
+
+        if any([True for cl in reliable if
+                cl.predicts_successfully(p0, action, p1)]):
+            nr_correct += 1
+
+    return nr_correct / len(transitions) * 100.0
 
 def plot_performance(df, population):
     # https://github.com/rougier/matplotlib-cheatsheet/blob/master/README.md
@@ -54,3 +71,4 @@ def plot_performance(df, population):
             sorted(population, key=lambda cl: -cl.fitness)[:top]):
         pos_y = 0.9
         axbig.text(.01, pos_y - i * 0.05, print_cl(cl), fontsize=13)
+

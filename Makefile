@@ -5,7 +5,7 @@ test:
 	py.test
 
 notebook:
-	jupyter lab --notebook-dir notebooks/
+	jupyter lab --notebook-dir .
 
 publish_experiments_docker_image:
 	docker build -f Dockerfile -t $(experiments_image) .

@@ -27,8 +27,8 @@ Finally push to docker hub
 
 ## Development
 
-    conda create --name pyalcs-experiments python=3.7
-    source activate pyalcs-experiments
+    conda env create --file conda.yaml 
+    conda activate pyalcs-experiments
 
     pip install -r requirements.txt
     pip install -f /Users/khozzy/Projects/pyalcs -f /Users/khozzy/Projects/openai-envs -r requirements-dev.txt

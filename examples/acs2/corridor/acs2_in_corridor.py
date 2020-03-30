@@ -7,6 +7,8 @@ import gym_corridor
 from lcs.agents import EnvironmentAdapter
 from lcs.agents.acs2 import ACS2, Configuration
 
+from lcs.strategies.action_selection2 import EpsilonGreedy
+
 # Configure logger
 logging.basicConfig(level=logging.INFO)
 
@@ -21,12 +23,14 @@ class CorridorAdapter(EnvironmentAdapter):
 
 if __name__ == '__main__':
     # Load desired environment
-    corridor = gym.make('corridor-20-v0')
+    corridor = gym.make('corridor-40-v0')
 
     # Configure and create the agent
     cfg = Configuration(
         classifier_length=1,
         number_of_possible_actions=2,
+        action_selector=EpsilonGreedy,
+        epsilon=0.8,
         beta=0.03,
         gamma=0.97,
         theta_exp=50,
