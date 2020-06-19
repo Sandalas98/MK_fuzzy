@@ -1,5 +1,23 @@
 # PyALCS Examples
 
+## Development mode
+In order to work both on developing PyALCS code and optionally OpenAI gym environments you can apply the following instructions.
+ 
+Create base Conda environment from environment file and activate it
+
+    conda env create --file environment-base.yml
+    conda activate pyalcs-experiments
+
+Install development versions of PyALCS and OpenAI Gym
+
+    cd PATH_TO_PYALCS/
+    python setup.py develop
+    
+    cd PATH_TO_OPENAIGYM_ENVS/
+    python setup.py develop
+
+By doing so the PYTHONPATH from the `pyalcs-experiments` environment will point to local directories.
+
 ### Investigating Exploration Techniques for Anticipatory Classifier System in Real-Valued Environments
 
 Online reproduction notebooks
