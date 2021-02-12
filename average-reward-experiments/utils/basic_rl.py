@@ -7,8 +7,10 @@ def qlearning(env, episodes, init_Q, epsilon, learning_rate, discount_factor,
               perception_to_state_mapper=lambda p: int(p)):
 
     Q = np.copy(init_Q)
+    steps = np.zeros(episodes)
 
-    for i in range(1, episodes):
+    for i in range(episodes):
+        episode_steps = 0
         state = perception_to_state_mapper(env.reset())
         done = False
 
@@ -30,8 +32,11 @@ def qlearning(env, episodes, init_Q, epsilon, learning_rate, discount_factor,
                 reward + discount_factor * discounted - Q[state, action])
 
             state = next_state
+            episode_steps += 1
+        
+        steps[i-1] = episode_steps
 
-    return Q
+    return Q, steps
 
 
 def rlearning(env, episodes, init_R, epsilon, learning_rate, zeta,
@@ -40,8 +45,10 @@ def rlearning(env, episodes, init_R, epsilon, learning_rate, zeta,
 
     R = np.copy(init_R)
     rho = init_rho
+    steps = np.zeros(episodes)
 
-    for i in range(1, episodes):
+    for i in range(episodes):
+        episode_steps = 0
         state = perception_to_state_mapper(env.reset())
         was_greedy = False
         done = False
@@ -68,5 +75,41 @@ def rlearning(env, episodes, init_R, epsilon, learning_rate, zeta,
                 rho = rho + zeta * (reward + np.max(R[next_state, :]) - discounted - rho)
 
             state = next_state
+            episode_steps += 1
+            
+        steps[i-1] = episode_steps
 
-    return R, rho
+    return R, rho, steps
+
+def run_q_learning_alternating(experiments, trials, env, epsilon, learning_rate, discount_factor, init_Q, perception_to_state_mapper=lambda p: int(p)):
+    metrics = []
+    
+    for experiment in range(experiments):
+        Q = init_Q
+        
+        for i in range(trials):
+            if i % 2 == 0:
+                Q, steps = qlearning(env, 1, Q, epsilon, learning_rate, discount_factor, perception_to_state_mapper)
+                metrics.append({'agent': 'Q-Learning', 'trial': i, 'phase': 'explore', 'steps_in_trial': steps[0]})
+            else:
+                Q, steps = qlearning(env, 1, Q, 0.0, learning_rate, discount_factor, perception_to_state_mapper)
+                metrics.append({'agent': 'Q-Learning', 'trial': i, 'phase': 'exploit', 'steps_in_trial': steps[0]})
+    
+    return metrics
+
+def run_r_learning_alternating(experiments, trials, env, epsilon, learning_rate, zeta, init_R, perception_to_state_mapper=lambda p: int(p)):
+    metrics = []
+    
+    for experiment in range(experiments):
+        R = init_R
+        rho = 0
+        
+        for i in range(trials):            
+            if i % 2 == 0:
+                R, rho, steps = rlearning(env, 1, R, epsilon, learning_rate, zeta, init_rho=rho, perception_to_state_mapper=perception_to_state_mapper)
+                metrics.append({'agent': 'R-Learning', 'trial': i, 'phase': 'explore', 'steps_in_trial': steps[0], 'rho': rho})
+            else:
+                R, rho, steps = rlearning(env, 1, R, 0.0, learning_rate, zeta, init_rho=rho, perception_to_state_mapper=perception_to_state_mapper)
+                metrics.append({'agent': 'R-Learning', 'trial': i, 'phase': 'exploit', 'steps_in_trial': steps[0], 'rho': rho})
+            
+    return metrics
