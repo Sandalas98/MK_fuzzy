@@ -11,6 +11,7 @@ def print_cl(cl):
         f"{cl.condition} - {action} - {cl.effect}"
         f"[fit: {cl.fitness:.3f}, r: {cl.r:.2f}, ir: {cl.ir:.2f}]")
 
+
 def plot_performance(df, population):
     # https://github.com/rougier/matplotlib-cheatsheet/blob/master/README.md
     explore_exploit_trial = df.query('phase=="explore"').tail(1).index[0]

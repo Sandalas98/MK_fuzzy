@@ -1,5 +1,6 @@
 import pandas as pd
 from lcs.agents.acs2 import ACS2, Configuration
+from tqdm import tqdm
 
 
 def parse_experiments_results(explore, exploit, metrics_trial_freq):
@@ -13,6 +14,7 @@ def parse_experiments_results(explore, exploit, metrics_trial_freq):
     df['trial'] = df.index * metrics_trial_freq
     df.set_index('trial', inplace=True)
     return df
+
 
 def start_single_experiment(env, explore_trials, exploit_trials, **kwargs):
     # Prepare the environment
@@ -37,8 +39,7 @@ def avg_experiments(n, env, explore_trials, exploit_trials, **kwargs):
     dfs = []
     print(f"{kwargs}\n")
 
-    for i in range(n):
-        print(f"Executing experiment {i}")
+    for i in tqdm(range(n), desc='Experiment', disable=n == 1):
         _, df = start_single_experiment(env, explore_trials, exploit_trials, **kwargs)
         dfs.append(df)
 
@@ -47,9 +48,10 @@ def avg_experiments(n, env, explore_trials, exploit_trials, **kwargs):
 
     return perf_df
 
-def eg(experiments, env, explore_trials, exploit_trials, params):
-    return avg_experiments(experiments,
-                           env,
-                           explore_trials,
-                           exploit_trials,
-                           **params)
+
+# def eg(experiments, env, explore_trials, exploit_trials, params):
+#     return avg_experiments(experiments,
+#                            env,
+#                            explore_trials,
+#                            exploit_trials,
+#                            **params)
