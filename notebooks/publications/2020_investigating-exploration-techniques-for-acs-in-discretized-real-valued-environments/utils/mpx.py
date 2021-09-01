@@ -1,5 +1,6 @@
 import pandas as pd
 from lcs.agents.acs2 import ACS2, Configuration
+from tqdm import tqdm
 
 
 def parse_metrics(metrics):
@@ -10,7 +11,6 @@ def parse_metrics(metrics):
     df['phase'] = df.index.map(lambda t: "explore" if t % 2 == 0 else "exploit")
 
     return df
-
 
 
 def start_single_experiment(env, trials, **kwargs):
@@ -27,10 +27,8 @@ def start_single_experiment(env, trials, **kwargs):
 
 def avg_experiments(n, env, trials, **kwargs):
     dfs = []
-    print(f"{kwargs}\n")
 
-    for i in range(n):
-        print(f"Executing experiment {i}")
+    for i in tqdm(range(n), desc='Experiment', disable=n == 1):
         _, df = start_single_experiment(env, trials, **kwargs)
         dfs.append(df)
 

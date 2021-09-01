@@ -40,18 +40,11 @@ def avg_experiments(n, env, explore_trials, exploit_trials, **kwargs):
     print(f"{kwargs}\n")
 
     for i in tqdm(range(n), desc='Experiment', disable=n == 1):
-        _, df = start_single_experiment(env, explore_trials, exploit_trials, **kwargs)
+        _, df = start_single_experiment(env, explore_trials, exploit_trials,
+                                        **kwargs)
         dfs.append(df)
 
     bar = pd.concat(dfs)
     perf_df = bar.groupby(['trial', 'phase']).mean().reset_index(level='phase')
 
     return perf_df
-
-
-# def eg(experiments, env, explore_trials, exploit_trials, params):
-#     return avg_experiments(experiments,
-#                            env,
-#                            explore_trials,
-#                            exploit_trials,
-#                            **params)
