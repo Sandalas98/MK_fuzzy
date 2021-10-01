@@ -10,7 +10,3 @@ dependencies:
   - pip:
     - "-e git+https://github.com/ParrotPrediction/pyalcs.git@41caed4e0f862e78260a8e8c3a2eb48eda5ab0a9#egg=pyalcs[mlflow]"
     - "-e git+https://github.com/ParrotPrediction/openai-envs.git@1f9d0f6249a9ccddc3299309d72687fbcbb53fc6#egg=parrotprediction-openai-envs"
-
-variables:
-  AWS_ACCESS_KEY_ID:
-  AWS_SECRET_ACCESS_KEY:
