@@ -5,12 +5,14 @@ conda_env: environment.yml
 entry_points:
   main:
     parameters:
+      experiment: { type: int }
       rmpx-size: { type: int }
       trials: { type: int }
       modulo: { type: int }
       hash: { type: string }
       agent: { type: string }
     command: "python ../code/mlflow_runner.py
+                        --experiment {experiment}
                         --rmpx-size {rmpx-size}
                         --trials {trials}
                         --modulo {modulo}

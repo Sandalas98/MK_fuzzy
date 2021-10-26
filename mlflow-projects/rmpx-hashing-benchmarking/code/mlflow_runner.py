@@ -9,6 +9,7 @@ if "MLFLOW_TRACKING_URI" not in environ:
 
 
 @click.command()
+@click.option("--experiment", type=click.INT, default=0)
 @click.option("--rmpx-size", type=click.Choice(['3', '6', '11', '20', '37']),
               required=True)
 @click.option("--trials", type=click.INT, default=100)
@@ -20,8 +21,10 @@ if "MLFLOW_TRACKING_URI" not in environ:
               type=click.Choice(['ACS', 'ACS2', 'ACS2GA', 'YACS'],
                                 case_sensitive=False),
               required=True)
-def execute(rmpx_size, trials, modulo, hash, agent):
+def execute(experiment, rmpx_size, trials, modulo, hash, agent):
     rmpx_size = int(rmpx_size)
+    mlflow.set_tag('mode', 'lightweight')
+    mlflow.set_tag('experiment', experiment)
 
     run(rmpx_size, trials, agent, hash, modulo)
 
