@@ -47,10 +47,10 @@ The experiment collect the following performance metrics:
 Useful Docker commands for working with the container image with experiments:
 
 ```shell
-make docker_build_image
+make build_image
 ```
-    
+
 
 ```shell
-make run_docker PARAMS="-P trials=1000 -P rmpx-size=3 -P hash=md5 -P agent=acs2 -P modulo=4"
+make run_docker PARAMS="-P trials=1000 -P rmpx-size=3 -P hash=md5 -P agent=acs2 -P modulo=4 -P experiment=-1"
 ```
