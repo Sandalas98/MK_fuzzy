@@ -4,17 +4,17 @@ import gym
 # noinspection PyUnresolvedReferences
 import gym_multiplexer
 
-from lcs.agents import EnvironmentAdapter
 
 from agents import run_acs, run_acs2, run_yacs
 
 
-class HashingRmpxAdapter(EnvironmentAdapter):
-    def __init__(self, hash_name, modulo):
+class HashingRmpxAdapter(gym.ObservationWrapper):
+    def __init__(self, env, hash_name, modulo):
+        super().__init__(env)
         self.hash_name = hash_name
         self.modulo = modulo
 
-    def to_genotype(self, obs):
+    def observation(self, obs):
         hashed = []
 
         # hash all attributes except last one
@@ -40,14 +40,15 @@ def metrics_collector(agent, env):
 
 
 def run(rmpx_size, trials, agent, hash_name, modulo):
-    env = gym.make(f'real-multiplexer-{rmpx_size}bit-v0')
-    env_adapter = HashingRmpxAdapter(hash_name=hash_name, modulo=modulo)
+    env = HashingRmpxAdapter(
+        env=gym.make(f'real-multiplexer-{rmpx_size}bit-v0'),
+        hash_name=hash_name,
+        modulo=modulo)
 
     common_cfg = {
         "classifier_length": rmpx_size + 1,
         "number_of_possible_actions": 2,
         "beta": 0.1,
-        "environment_adapter": env_adapter,
         "user_metrics_collector_fcn": metrics_collector,
         "metrics_trial_frequency": 25,
         'model_checkpoint_frequency': trials / 25,
@@ -79,11 +80,11 @@ def run(rmpx_size, trials, agent, hash_name, modulo):
 
 if __name__ == '__main__':
     pop, metrics = run(
-        rmpx_size=6,
-        trials=100,
-        agent='ACS2',
+        rmpx_size=3,
+        trials=1000,
+        agent='YACS',
         hash_name='md5',
-        modulo=16)
+        modulo=4)
 
     print(f"Len pop : {len(pop)}")
     for cl in pop:
