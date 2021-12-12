@@ -4,7 +4,7 @@ channels:
 dependencies:
   - python=3.7
   - jupyter=1.0.0
-  - jupyterlab>=2.0.0
+  - jupyterlab>=3.2.0
   - jupyter_contrib_nbextensions>=0.5.1
   - mlflow>=1.7
   - pandas>=1.0.0
@@ -13,6 +13,9 @@ dependencies:
   - pytest>=5.4
   - pip
   - dill
+  - ipympl
   - tqdm
   - pip:
     - gym>=0.18
+  imports:
+    - requirements/base.

@@ -7,11 +7,14 @@ Create base Conda environment from environment file and activate it
 
     conda env create --file environment-base.yml
     conda activate pyalcs-experiments
+    conda env update --file environment-base.yml --prune
 
 Install development versions of PyALCS and OpenAI Gym
 
     cd PATH_TO_PYALCS/
     python setup.py develop
+    
+    cd ../pyalcs && python setup.py develop && cd ../pyalcs-experiments
     
     cd PATH_TO_OPENAIGYM_ENVS/
     python setup.py develop
