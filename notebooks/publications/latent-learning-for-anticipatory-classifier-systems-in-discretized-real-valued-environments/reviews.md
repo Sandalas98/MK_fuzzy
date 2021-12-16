@@ -89,19 +89,15 @@
 
 ## Reviewer 2
 
-### Limited abstract 📝
+### Fine-tuning Abstract section ✅
 
-> The abstract is too limited, not clearly show the whole summary of the paper.
+> - The abstract is too limited, not clearly show the whole summary of the paper.
+> - Acronyms in the abstract should be fully written, ACS, ACS2, YACS...
  
-**Response to concern**: ...
+**Response to concern**: Agree
 
-**Action to remedy the concern**: ...
+**Action to remedy the concern**: Abstract was partially rewritten.
 
-### Acronyms in the abstract should be fully written, ACS, ACS2, YACS... ❓
-
-**Response to concern**: ...
-
-**Action to remedy the concern**: ...
 
 ### Bibliography items ordering ✅
 > In the introduction section, the citation starts with ref [18]. why/How?
@@ -124,17 +120,17 @@
 
 **Action to remedy the concern**: Highlight the memory-reward relation in figure caption.
 
-### Try to identify, If the action/agent value has not a value of the reward, where is the punishment value will be updated? ❓
+### Try to identify, If the action/agent value has not a value of the reward, where is the punishment value will be updated? ✅
 
-**Response to concern**: ...
+**Response to concern**: All of the investigated models support the distribution of rewards over created set of rules. The punishment scheme was not examined, and is out of the scope for this work. Additionally, the obtained reward is not relevant, because the internalized environmental model is learned without and explicit present of the reward (latent learning). 
 
-**Action to remedy the concern**: ...
+**Action to remedy the concern**: None taken
 
-### How to classify the corridor and grid points for this work? ❓
+### How to classify the corridor and grid points for this work? ✅
 
-**Response to concern**: ...
+**Response to concern**: These are the standard benchmarking problems used in LCS.
 
-**Action to remedy the concern**: ...
+**Action to remedy the concern**: None taken
 
 ### Unclear figures ✅
 > - Figures are not clearly plotted
@@ -145,11 +141,11 @@
 
 **Action to remedy the concern**: Changed the colormap to be more distinguishable. Lines and markers are also bigger
 
-### Is the study applies multi-agent and action values. What are really agents are represented? ❓
+### Is the study applies multi-agent and action values. What are really agents are represented? ✅
 
-**Response to concern**: ...
+**Response to concern**: This topic is not in the scope of the work.
 
-**Action to remedy the concern**: ...
+**Action to remedy the concern**: None taken
 
 ### Stale references ✅
 
