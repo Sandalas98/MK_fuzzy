@@ -185,10 +185,3 @@
 **Response to concern**: The novelty is highlighted in the first two paragraph in Section V.
 
 **Action to remedy the concern**: None
-
-#TODO
-- [ ] annotate pyalcs-experiments repository
-- [ ] article proof-reading
-- [x] newer bibliography items
-- [x] update plots
-- [X] check why there is lowercase "xcs" in biography

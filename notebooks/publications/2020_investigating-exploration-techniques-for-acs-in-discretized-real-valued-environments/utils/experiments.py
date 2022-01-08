@@ -23,16 +23,16 @@ def start_single_experiment(env, explore_trials, exploit_trials, **kwargs):
     cfg = Configuration(**kwargs)
 
     explorer = ACS2(cfg)
-    population_explore, metrics_explore = explorer.explore(env, explore_trials)
+    metrics_explore = explorer.explore(env, explore_trials)
 
-    exploiter = ACS2(cfg, population_explore)
-    population_exploit, metrics_exploit = explorer.exploit(env, exploit_trials)
+    exploiter = ACS2(cfg, explorer.population)
+    metrics_exploit = explorer.exploit(env, exploit_trials)
 
     # Parse results into DataFrame
     df = parse_experiments_results(metrics_explore, metrics_exploit,
                                    cfg.metrics_trial_frequency)
 
-    return population_exploit, df
+    return df
 
 
 def avg_experiments(n, env, explore_trials, exploit_trials, **kwargs):
@@ -40,8 +40,7 @@ def avg_experiments(n, env, explore_trials, exploit_trials, **kwargs):
     print(f"{kwargs}\n")
 
     for i in tqdm(range(n), desc='Experiment', disable=n == 1):
-        _, df = start_single_experiment(env, explore_trials, exploit_trials,
-                                        **kwargs)
+        df = start_single_experiment(env, explore_trials, exploit_trials, **kwargs)
         dfs.append(df)
 
     bar = pd.concat(dfs)

@@ -1,35 +1,152 @@
 #!/bin/bash -l
 
-## Nazwa zlecenia
-#SBATCH -J rmpx-test
-
-## Liczba alokowanych węzłów
-#SBATCH -N 1
-
-## Liczba zadań per węzeł (domyślnie jest to liczba alokowanych rdzeni na węźle)
-#SBATCH --ntasks-per-node=12
-
-## Ilość pamięci przypadającej na jeden rdzeń obliczeniowy (domyślnie 4GB na rdzeń)
+#SBATCH -J rmpx
 #SBATCH --mem-per-cpu=10GB
+#SBATCH -A plgpwrrmpx1
+#SBATCH -p plgrid-long
+#SBATCH --array=1-128
+#SBATCH --output="output-%A_%a.out"
+#SBATCH --error="error-%A_%a.err"
 
-## Maksymalny czas trwania zlecenia (format HH:MM:SS)
-#SBATCH --time=01:00:00
+module load plgrid/tools/python-intel/3.7.7
 
-## Nazwa grantu do rozliczenia zużycia zasobów
-#SBATCH -A plgkhozzy2021a
-
-## Specyfikacja partycji
-#SBATCH -p plgrid-testing
-
-## Plik ze standardowym wyjściem
-#SBATCH --output="output.out"
-
-## Plik ze standardowym wyjściem błędów
-#SBATCH --error="error.err"
-
-module load plgrid/tools/python-intel/3.5.3
-
-## przejscie do katalogu z ktorego wywolany zostal sbatch
 cd $SLURM_SUBMIT_DIR/slurm
 
-./execute.sh
+# Fill-in
+export MLFLOW_TRACKING_URI=http://acireale.iiar.pwr.edu.pl/mlflow/
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+
+# Parameter grid (see SBATCH array size)
+PARAMETERS[1]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[2]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[3]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[4]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[5]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[6]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[7]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[8]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[9]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[10]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[11]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[12]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[13]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[14]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[15]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[16]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[17]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[18]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[19]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[20]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[21]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[22]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[23]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[24]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[25]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[26]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs -P modulo=4 -P experiment=1"
+PARAMETERS[27]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[28]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs -P modulo=8 -P experiment=1"
+PARAMETERS[29]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[30]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs -P modulo=16 -P experiment=1"
+PARAMETERS[31]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[32]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs -P modulo=32 -P experiment=1"
+PARAMETERS[33]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[34]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[35]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[36]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[37]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[38]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[39]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[40]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[41]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[42]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[43]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[44]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[45]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[46]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[47]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[48]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[49]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[50]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[51]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[52]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[53]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[54]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[55]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[56]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[57]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[58]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2 -P modulo=4 -P experiment=1"
+PARAMETERS[59]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[60]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2 -P modulo=8 -P experiment=1"
+PARAMETERS[61]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[62]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2 -P modulo=16 -P experiment=1"
+PARAMETERS[63]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[64]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2 -P modulo=32 -P experiment=1"
+PARAMETERS[65]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[66]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[67]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[68]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[69]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[70]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[71]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[72]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[73]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[74]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[75]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[76]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[77]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[78]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[79]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[80]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[81]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[82]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[83]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[84]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[85]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[86]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[87]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[88]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[89]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[90]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2ga -P modulo=4 -P experiment=1"
+PARAMETERS[91]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[92]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2ga -P modulo=8 -P experiment=1"
+PARAMETERS[93]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[94]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2ga -P modulo=16 -P experiment=1"
+PARAMETERS[95]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[96]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=acs2ga -P modulo=32 -P experiment=1"
+PARAMETERS[97]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[98]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[99]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[100]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[101]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[102]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[103]="-P trials=50000 -P rmpx-size=3 -P hash=md5 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[104]="-P trials=50000 -P rmpx-size=3 -P hash=sha256 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[105]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[106]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[107]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[108]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[109]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[110]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[111]="-P trials=50000 -P rmpx-size=6 -P hash=md5 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[112]="-P trials=50000 -P rmpx-size=6 -P hash=sha256 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[113]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[114]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[115]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[116]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[117]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[118]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[119]="-P trials=50000 -P rmpx-size=11 -P hash=md5 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[120]="-P trials=50000 -P rmpx-size=11 -P hash=sha256 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[121]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[122]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=yacs -P modulo=4 -P experiment=1"
+PARAMETERS[123]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[124]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=yacs -P modulo=8 -P experiment=1"
+PARAMETERS[125]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[126]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=yacs -P modulo=16 -P experiment=1"
+PARAMETERS[127]="-P trials=50000 -P rmpx-size=20 -P hash=md5 -P agent=yacs -P modulo=32 -P experiment=1"
+PARAMETERS[128]="-P trials=50000 -P rmpx-size=20 -P hash=sha256 -P agent=yacs -P modulo=32 -P experiment=1"
+
+# Computation script
+pip install --user mlflow
+mlflow run . ${PARAMETERS[$SLURM_ARRAY_TASK_ID]}

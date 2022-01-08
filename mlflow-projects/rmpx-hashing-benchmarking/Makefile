@@ -8,7 +8,7 @@ interactive:
 	docker run --entrypoint bash -ti $(image_name):latest
 
 run_mlflow:
-	MLFLOW_TRACKING_URI=http://localhost/mlflow/ mlflow run . --no-conda $(PARAMS)
+	MLFLOW_TRACKING_URI=http://localhost/mlflow/ mlflow run . $(PARAMS)
 
 run_docker:
 	docker run --env-file .env --network="host" $(image_name):latest --no-conda $(PARAMS)
