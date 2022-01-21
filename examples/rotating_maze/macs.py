@@ -64,8 +64,8 @@ if __name__ == '__main__':
     agent = MACS(cfg)
 
     print("\n*** EXPLORE ***")
-    pop, metrics = agent.explore(env, 100)
+    metrics = agent.explore(env, 100)
 
-    for action, gcl in groupby(sorted(pop, key=lambda c: (c.action, c.condition))):
+    for action, gcl in groupby(sorted(agent.population, key=lambda c: (c.action, c.condition))):
         for cl in gcl:
             print(cl)
