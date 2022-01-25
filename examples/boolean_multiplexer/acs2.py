@@ -1,8 +1,6 @@
 import gym
 # noinspection PyUnresolvedReferences
 import gym_multiplexer
-
-
 from lcs.agents.acs2 import ACS2, Configuration
 
 from examples.boolean_multiplexer import reliable_cl_exists, \
@@ -29,11 +27,11 @@ if __name__ == '__main__':
     agent = ACS2(cfg)
 
     # Explore the environment
-    population, explore_metrics = agent.explore(mp, 150)
+    explore_metrics = agent.explore(mp, 1500)
 
     # Exploit the environment
-    agent = ACS2(cfg, population)
-    population, exploit_metrics = agent.exploit(mp, 50)
+    exploiter = ACS2(cfg, agent.population)
+    exploit_metrics = agent.exploit(mp, 500)
 
     # See how it went
     for metric in explore_metrics:
